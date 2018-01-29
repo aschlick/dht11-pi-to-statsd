@@ -1,5 +1,7 @@
 #include <dht11.h>
 #include <wiringPi.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 int main( void )
 {
@@ -12,7 +14,7 @@ int main( void )
 
   while ( 1 )
   {
-    float[2] data = sensor.getTempAndHumidity();
+    float *data = sensor.getTempAndHumidity();
     printf("Temperature: %f", data[0]);
     printf("Humidity: %f", data[1]);
     delay( 1000 ); /* wait 1sec to refresh */

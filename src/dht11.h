@@ -7,7 +7,7 @@ private:
 
 public:
   Dht11(int pin);
-  float[2] getTempAndHumidity();
+  float* getTempAndHumidity();
 }
 
 #endif
