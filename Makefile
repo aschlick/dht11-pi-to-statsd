@@ -1,24 +1,22 @@
-TARGET = prog
-LIBS = -lm
+OUT = main
 CC = gcc
+ODIR = dist
+SDIR = src
+INC = -Isrc
+LINK = -lwiringPi
 CFLAGS = -g -Wall
 
-.PHONY: default all clean
+_OBJS = dht11.o main.o
 
-default: $(TARGET)
-all: default
+OBJS = $(patsubst %,$(ODIR)/%,$(_OBJS))
 
-OBJECTS = $(patsubst %.c, %.o, $(wildcard *.c))
-HEADERS = $(wildcard *.h)
+$(ODIR)/%.o: $(SDIR)/%.c
+	$(CC) $(CFLAGS) $(LINK) -c $(INC) -o $@ $< $(CFLAGS)
 
-%.o: %.c $(HEADERS)
-		$(CC) $(CFLAGS) -c $< -o $@
+$(OUT): $(OBJS)
+	$(CC) $(OBJS) -Wall $(LINK) -o $@
 
-.PRECIOUS: $(TARGET) $(OBJECTS)
-
-$(TARGET): $(OBJECTS)
-		$(CC) $(OBJECTS) -Wall $(LIBS) -o $@
+.PHONY: clean
 
 clean:
-		-rm -f *.o
-		-rm -f $(TARGET)
+	rm -f $(ODIR)/*.o $(OUT)
